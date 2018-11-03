@@ -13,34 +13,23 @@ public class RansomNote {
     // Complete the checkMagazine function below.
     static void checkMagazine(String[] magazine, String[] note) {
         //each note string must occur in magazine and only once, cases matter
-        //TODO Brute force apporach takes too long think again in the morning
-        boolean stringMatch = false;
-        boolean countMatch = true;
-        HashMap<Integer, Integer> hashMap = new HashMap<>();
-        for (int i = 0; i < note.length; i++) {
-            int count = 0;
-            for (int j = 0; j < magazine.length; ) {
-                if (note[i] == magazine[j]) {
-                    stringMatch = true;
-                    count++;
-                }
-                hashMap.put(j, count);
+        HashMap<String, Integer> magazineMap = new HashMap<>();
+        for (int i = 0; i < magazine.length; i++) {
+            if (magazineMap.containsKey(magazine[i])){
+                magazineMap.put(magazine[i],magazineMap.get(magazine[i])+1);
+            }else {
+            magazineMap.put(magazine[i],1);
             }
         }
-        Set set = hashMap.entrySet();
-        Iterator iterator = set.iterator();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-            if (Integer.valueOf((String) entry.getValue()) > 1) {
-                countMatch =false;
+        for (int i = 0; i < note.length; i++){
+            if (magazineMap.keySet().contains(note[i]) && magazineMap.get(note[i])>0){
+                magazineMap.put(note[i],magazineMap.get(note[i])-1);
+            }else {
+                System.out.println("No");
+                return;
             }
         }
-        if ((stringMatch && countMatch) ) {
-            System.out.println("Yes");
-        } else {
-            System.out.println("No");
-        }
-
+        System.out.println("Yes");
     }
 
     private static final Scanner scanner = new Scanner(System.in);
